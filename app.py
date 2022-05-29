@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///projekt.db'
@@ -8,34 +7,38 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///projekt.db'
 db = SQLAlchemy(app)
 
 
-class Task(db.Model):
+class Coordinates(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    content = db.Column(db.String(200), nullable=False)
-    date = db.Column(db.DateTime, default=datetime.utcnow())
+    CoordinateA = db.Column(db.String(20), nullable=False)
+    CoordinateB = db.Column(db.String(20), nullable=False)
+
+class Distance(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    Coordinates = db.Column(db.Integer, db.foreign_key('Coordinates.id'), nullable=False)
+    Distance = db.Column(db.String(20), nullable=False)
 
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        task_content = request.form['content']
-        task = Task(content=task_content)
+        lenghtCoordinates = int(request.form['allOfTheCoordinates'])
 
-        db.session.add(task)
-        db.session.commit()
-        return redirect('/')
-    else:
-        tasks = Task.query.order_by(Task.date).all()
-        return render_template("index.html", tasks=tasks)
+        for i in range(1, lenghtCoordinates+1, 2):
+            firstCoordinate = request.form['kordynaty' + str(i)]
 
-@app.route('/update/<int:id>', methods=['GET', 'POST'])
-def update(id):
-    task = Task.query.get_or_404(id)
-    if request.method == 'POST':
-        task.content = request.form['content']
-        db.session.commit()
-        return redirect('/')
+            secondCoordinatei = i+1
+            secondCoordinate = request.form['kordynaty' + str(secondCoordinatei)]
+
+            coordinateToSQL = Coordinates(CoordinateA=firstCoordinate, CoordinateB=secondCoordinate)
+
+            db.session.add(coordinateToSQL)
+            db.session.commit()
+        return redirect('http://localhost:5000/', code=302)
     else:
-        return render_template("update.html", task=task)
+        return render_template("index.html")
+
+@app.route('/show')
+def show():
 
 
 if __name__ == "__main__":

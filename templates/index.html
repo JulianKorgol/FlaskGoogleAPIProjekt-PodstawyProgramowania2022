@@ -6,31 +6,25 @@
 
 
 {% block body %}
-<h1>Google API Integration</h1>
-    <div class="form">
-        <form action="" method="POST" id="formularzTworzeniaMisji">
-            <div>
-                <label for="kordynaty" class="form-label">Kordynaty1</label>
-                <input
-                type="text"
-                class="form-control"
-                name="kordynaty1"
-                id="kordynaty1"
-                required
-                />
-            </div>
-            <div>
-                <label for="kordynaty2" class="form-label">Kordynaty2</label>
-                <input
-                type="text"
-                class="form-control"
-                name="kordynaty2"
-                id="kordynaty2"
-                required
-                />
-            </div>
-        </form>
-    <button onclick="dodajKordynaty()">Dodaj kolejne kordynaty</button>
-    </div>
-    </div>
+    <h1>Google API Integration</h1>
+
+    <form method="POST">
+        <table class="Coordinates">
+            <tr>
+                <th>Kordynaty x</th>
+                <th>Kordynaty y</th>
+            </tr>
+            <tr>
+                <td><input type="text" class="form-control" name="kordynaty1" id="kordynaty2" required/></td>
+                <td><input type="text" class="form-control" name="kordynaty2" id="kordynaty2" required/></td>
+            </tr>
+        </table>
+        <div id="allOfTheCoordinates">
+            <input type="hidden" value="2" name="allOfTheCoordinates" />
+        </div>
+        <button type="submit">Wyślij</button>
+    </form>
+    <button id="addCoordinates">Dodaj kolejne kordynaty</button>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="./static/js/placeholders.js"></script>
 {% endblock %}
