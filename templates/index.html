@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block head %}
+<title>Google API Integration</title>
+{%  endblock %}
+
+
+{% block body %}
+<h1>Google API Integration</h1>
+    <div class="form">
+        <form action="" method="POST" id="formularzTworzeniaMisji">
+            <div>
+                <label for="kordynaty" class="form-label">Kordynaty1</label>
+                <input
+                type="text"
+                class="form-control"
+                name="kordynaty1"
+                id="kordynaty1"
+                required
+                />
+            </div>
+            <div>
+                <label for="kordynaty2" class="form-label">Kordynaty2</label>
+                <input
+                type="text"
+                class="form-control"
+                name="kordynaty2"
+                id="kordynaty2"
+                required
+                />
+            </div>
+        </form>
+    <button onclick="dodajKordynaty()">Dodaj kolejne kordynaty</button>
+    </div>
+    </div>
+{% endblock %}
