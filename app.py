@@ -6,7 +6,6 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///projekt.db'
 
 db = SQLAlchemy(app)
 
-
 class Coordinates(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     CoordinateA = db.Column(db.String(20), nullable=False)
@@ -14,7 +13,7 @@ class Coordinates(db.Model):
 
 class Distance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    Coordinates = db.Column(db.Integer, db.foreign_key('Coordinates.id'), nullable=False)
+    Coordinates = db.Column(db.Integer, db.ForeignKey('Coordinates.id'), nullable=False)
     Distance = db.Column(db.String(20), nullable=False)
 
 
@@ -23,7 +22,7 @@ def index():
     if request.method == 'POST':
         lenghtCoordinates = int(request.form['allOfTheCoordinates'])
 
-        for i in range(1, lenghtCoordinates+1, 2):
+        for i in range(1, lenghtCoordinates):
             firstCoordinate = request.form['kordynaty' + str(i)]
 
             secondCoordinatei = i+1
@@ -37,9 +36,13 @@ def index():
     else:
         return render_template("index.html")
 
-@app.route('/show')
+@app.route('/show', methods=['GET'])
 def show():
+    kordynaty = []
+    koordynaty = Coordinates.query.all()
 
+    for k in koordynaty:
+        # funckja(k.CoordinateA, k.CoordinateB)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,13 +1,9 @@
 import googlemaps as googlemaps
 
-client = googlemaps.Client(API_KEY)
+def GoogleMaps(CoordinateA, CoordinateB):
+    API_KEY = "KEYHERE";
 
-waw = "52.2505562,20.9781065" #kordynaty 1
-lbn = "51.2426387,22.5554689" #kordynaty 2
+    client = googlemaps.Client(API_KEY)
+    directions_result = client.directions(origin=CoordinateA, destination=CoordinateB, mode="driving", avoid="ferries")
 
-directions_result = client.directions(origin=waw,
-                                      destination=lbn,
-                                      mode="driving",
-                                      avoid="ferries")
-
-print(directions_result[0]['legs'][0]['distance'])
+    return directions_result[0]['legs'][0]['distance']['value']

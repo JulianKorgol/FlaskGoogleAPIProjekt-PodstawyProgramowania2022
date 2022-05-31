@@ -1,0 +1,5 @@
+Strategia zachłanna -> algorytmy zachłanne
+
+Algorytmy:
+- Algorytm najbliższych sąsiadów -> O(n2)
+- Algorymt [ma kilka nazw] - najmniejszej krawędzi -> O(n2Logn)
