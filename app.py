@@ -22,7 +22,7 @@ def index():
     if request.method == 'POST':
         lenghtCoordinates = int(request.form['allOfTheCoordinates'])
 
-        for i in range(1, lenghtCoordinates):
+        for i in range(1, lenghtCoordinates+1, 2):
             firstCoordinate = request.form['kordynaty' + str(i)]
 
             secondCoordinatei = i+1
@@ -41,7 +41,7 @@ def show():
     kordynaty = []
     koordynaty = Coordinates.query.all()
 
-    for k in koordynaty:
+    # for k in koordynaty:
         # funckja(k.CoordinateA, k.CoordinateB)
 
 if __name__ == "__main__":
