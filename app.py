@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
+from googleapi import GoogleMaps
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///projekt.db'
@@ -38,11 +39,20 @@ def index():
 
 @app.route('/show', methods=['GET'])
 def show():
-    kordynaty = []
+    koordynaty = []
+    odleglosci = []
+
     koordynaty = Coordinates.query.all()
 
-    # for k in koordynaty:
-        # funckja(k.CoordinateA, k.CoordinateB)
+    for k in koordynaty:
+        Coordinate1 = str(k.CoordinateA) + ',' + (k.CoordinateB)
+        odlegloscPunktowa = int(GoogleMaps(Coordinate1, zAlgorytmu))
+        odleglosci.append(odlegloscPunktowa)
+
+    print(koordynaty)
+    print(odleglosci)
+
+    return render_template("show.html", odleglosci=odleglosci)
 
 if __name__ == "__main__":
     app.run(debug=True)
