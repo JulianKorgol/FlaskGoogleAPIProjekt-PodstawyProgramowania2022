@@ -14,7 +14,8 @@ class Coordinates(db.Model):
 
 class Distance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    Coordinates = db.Column(db.Integer, db.ForeignKey('Coordinates.id'), nullable=False)
+    CoordinatesStart = db.Column(db.Integer, db.ForeignKey('Coordinates.id'), nullable=False)
+    CoordinatesEnd = db.Column(db.Integer, db.ForeignKey('Coordinates.id'), nullable=False)
     Distance = db.Column(db.String(20), nullable=False)
 
 
@@ -33,13 +34,12 @@ def index():
 
             db.session.add(coordinateToSQL)
             db.session.commit()
-        return redirect('http://localhost:5000/', code=302)
+        return redirect('http://localhost:5000/show', code=302)
     else:
         return render_template("index.html")
 
 @app.route('/show', methods=['GET'])
 def show():
-    koordynaty = []
     odleglosci = []
 
     koordynaty = Coordinates.query.all()
