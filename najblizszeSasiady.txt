@@ -18,3 +18,11 @@ def nn_tour(points):
 		tour.append(c)
 		unvisited.remove(c)
 	return tour
+
+#To
+for n in nn_tour(points):
+	print(n.name)
+# Lub
+print([n.name for n in nn_tour(points)])
+
+# n.name ->
