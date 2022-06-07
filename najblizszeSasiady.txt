@@ -1,0 +1,20 @@
+def first(collection):
+	return next(iter(collection))
+
+def distance(a, b, roads):
+	for r in roads:
+		if a.id == r.id_origin and b.id == r.id_destination:
+			return r.distance
+
+def nearest_neighbour(a, points):
+	return min(points, key=lambda c: distance(c, a, roads))
+
+def nn_tour(points):
+	start = first(points)
+	tour = [start]
+	unvisited = set(points - {start})
+	while unvisited:
+		c = nearest_neighbour(tour[-1], unvisited)
+		tour.append(c)
+		unvisited.remove(c)
+	return tour
