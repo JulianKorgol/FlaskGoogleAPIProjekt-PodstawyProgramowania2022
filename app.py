@@ -14,9 +14,9 @@ class Coordinates(db.Model):
 
 class Distance(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    CoordinatesStart = db.Column(db.Integer, db.ForeignKey('Coordinates.id'), nullable=False)
-    CoordinatesEnd = db.Column(db.Integer, db.ForeignKey('Coordinates.id'), nullable=False)
-    Distance = db.Column(db.String(20), nullable=False)
+    CoordinatesStart = db.Column(db.Integer, nullable=False)
+    CoordinatesEnd = db.Column(db.Integer, nullable=False)
+    DistanceFromPoints = db.Column(db.String(20), nullable=False)
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -40,19 +40,19 @@ def index():
 
 @app.route('/show', methods=['GET'])
 def show():
-    odleglosci = []
-
     koordynaty = Coordinates.query.all()
 
     for k in koordynaty:
-        Coordinate1 = str(k.CoordinateA) + ',' + (k.CoordinateB)
-        odlegloscPunktowa = int(GoogleMaps(Coordinate1, zAlgorytmu))
-        odleglosci.append(odlegloscPunktowa)
+        for i in koordynaty:
+            if i != k:
+                Coordinate1 = str(k.CoordinateA) + ',' + str(k.CoordinateB)
+                Coordinate2 = str(i.CoordinateA) + ',' + str(k.CoordinateB)
+                odlegloscPunktowa = int(GoogleMaps(Coordinate1, Coordinate2))
+                toSQL = Distance(CoordinatesStart=Coordinate1, CoordinatesEnd=Coordinate2, DistanceFromPoints=odlegloscPunktowa)
+                db.session.add(toSQL)
+                db.session.commit()
 
-    print(koordynaty)
-    print(odleglosci)
-
-    return render_template("show.html", odleglosci=odleglosci)
+    return render_template("show.html")
 
 if __name__ == "__main__":
     app.run(debug=True)
