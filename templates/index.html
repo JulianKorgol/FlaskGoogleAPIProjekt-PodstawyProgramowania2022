@@ -10,28 +10,32 @@
         <div class="content">
             <h1>Google API Integration</h1>
 
-            <form method="POST">
-                <table class="Coordinates">
+            <table class="Coordinates">
                     <tr>
                         <th>Kordynaty x</th>
                         <th>Kordynaty y</th>
                     </tr>
-                    <tr>
-                        <td><input type="text" class="form-control" name="kordynaty1" id="kordynaty2" required/></td>
-                        <td><input type="text" class="form-control" name="kordynaty2" id="kordynaty2" required/></td>
-                    </tr>
-                </table>
-                <div id="allOfTheCoordinates">
-                    <input type="hidden" value="2" name="allOfTheCoordinates" />
-                </div>
-                <button id="send" class="btn btn-success btn-lg" type="submit">Wyślij</button>
-            </form>
-            <button id="addCoordinates" class="btn btn-primary btn-lg">Dodaj kolejne kordynaty</button>
+                    {% for coordinate in coordinates %}
+                        <tr>
+                            <td>{{ coordinate.CoordinateA }}</td>
+                            <td>{{ coordinate.CoordinateB }}</td>
+                        </tr>
+                    {% endfor %}
+                    <form method="POST" id="coordinate">
+                        <tr>
+                            <td><input type="text" class="form-control" name="kordynaty1" id="kordynaty1" required/></td>
+                            <td><input type="text" class="form-control" name="kordynaty2" id="kordynaty2" required/></td>
+                        </tr>
+                    </form>
+            </table>
+            <div class="buttons">
+                <button id="wyslij" form="coordinate" class="btn btn-success btn-lg" type="submit">Dodaj kordynaty</button>
+                <form action="/deleteAll" method="POST">
+                    <input type="submit" class="btn btn-danger btn-lg"  value="Usuń kordynaty">
+                </form>
+            </div>
         </div>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="./static/js/placeholders.js"></script>
 {% endblock %}
-
-{% for task in tasks %}
-{% endfor %}

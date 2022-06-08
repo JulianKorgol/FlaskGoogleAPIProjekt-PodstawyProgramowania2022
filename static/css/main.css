@@ -127,3 +127,13 @@ button {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.buttons #wyslij {
+  margin-right: 20px;
+}

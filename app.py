@@ -22,21 +22,18 @@ class Distance(db.Model):
 @app.route('/', methods=['GET', 'POST'])
 def index():
     if request.method == 'POST':
-        lenghtCoordinates = int(request.form['allOfTheCoordinates'])
+        firstCoordinate = request.form['kordynaty1']
+        secondCoordinate = request.form['kordynaty2']
 
-        for i in range(1, lenghtCoordinates+1, 2):
-            firstCoordinate = request.form['kordynaty' + str(i)]
+        coordinateToSQL = Coordinates(CoordinateA=firstCoordinate, CoordinateB=secondCoordinate)
 
-            secondCoordinatei = i+1
-            secondCoordinate = request.form['kordynaty' + str(secondCoordinatei)]
-
-            coordinateToSQL = Coordinates(CoordinateA=firstCoordinate, CoordinateB=secondCoordinate)
-
-            db.session.add(coordinateToSQL)
-            db.session.commit()
-        return redirect('http://localhost:5000/show', code=302)
+        db.session.add(coordinateToSQL)
+        db.session.commit()
+        # return redirect('http://localhost:5000/show', code=302)
+        return redirect('http://localhost:5000/', code=302)
     else:
-        return render_template("index.html")
+        coordinate = Coordinates.query.order_by(Coordinates.id).all()
+        return render_template("index.html", coordinates=coordinate)
 
 @app.route('/show', methods=['GET'])
 def show():
@@ -53,6 +50,13 @@ def show():
                 db.session.commit()
 
     return render_template("show.html")
+
+@app.route('/deleteAll', methods=['POST'])
+def deleteCoordinates():
+    Coordinates.query.delete()
+    Distance.query.delete()
+    db.session.commit()
+    return redirect('http://localhost:5000/', code=302)
 
 if __name__ == "__main__":
     app.run(debug=True)
