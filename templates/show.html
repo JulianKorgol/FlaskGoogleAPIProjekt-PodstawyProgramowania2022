@@ -6,5 +6,11 @@
 
 
 {% block body %}
-
+    <div class="applicationBox">
+        <h2 class="text-center">Trasa gotowa!</h2>
+        <p class="text-center">Kliknij poniżej, aby zobaczyć ją w Google!</p>
+        <div class="buttons">
+            <a href="{{ googleLink }}" class="btn btn-success btn-lg" target="_blank">Zobacz trasę</a>
+        </div>
+    </div>
 {% endblock %}

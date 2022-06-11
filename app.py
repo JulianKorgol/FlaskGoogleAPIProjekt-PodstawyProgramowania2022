@@ -29,7 +29,6 @@ def index():
 
         db.session.add(uploadToSQL)
         db.session.commit()
-        # return redirect('http://localhost:5000/show', code=302)
         return redirect('http://localhost:5000/', code=302)
     else:
         coordinate = Coordinates.query.order_by(Coordinates.id).all()
@@ -75,17 +74,21 @@ def show():
         return tour
 
     # Wywołanie algorytmu
-    pointsNotSet = Coordinates.query.all()
-
-    points = set(pointsNotSet)
+    points = set(Coordinates.query.all())
     roads = Distance.query.all()
-
     theFastestWay = []
 
     for n in nn_tour(points):
         theFastestWay.append(n)
 
-    return render_template("show.html")
+    # Przygotowujemy link
+    googleLink = "https://www.google.pl/maps/dir/"
+    for x in theFastestWay:
+        googleLink += x.Coordinates + "/"
+
+    Distance.query.delete()
+    db.session.commit()
+    return render_template("show.html", googleLink=googleLink)
 
 @app.route('/deleteAll', methods=['POST'])
 def deleteCoordinates():
